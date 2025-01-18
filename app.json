@@ -13,7 +13,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Questa app ha bisogno di accedere alle tue foto per visualizzare l'ultima immagine salvata."
+      },
+      "jsEngine": "jsc"
     },
     "android": {
       "adaptiveIcon": {
