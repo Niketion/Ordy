@@ -1,4 +1,3 @@
-// src/components/LoadingScreen.tsx
 import React from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';

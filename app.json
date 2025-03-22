@@ -19,11 +19,28 @@
       },
       "jsEngine": "jsc"
     },
+    "plugins": [
+      [
+        "expo-background-fetch",
+        {
+          "startOnBoot": true
+        }
+      ]
+    ],
+    "infoPlist": {
+      "UIBackgroundModes": [
+        "fetch"
+      ]
+    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "RECEIVE_BOOT_COMPLETED",
+        "WAKE_LOCK"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
