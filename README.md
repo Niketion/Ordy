@@ -13,9 +13,11 @@ Ordy is a powerful, intuitive mobile application designed to bring order to your
 
 ## App Screenshots 📸
 
-<img src="https://i.imgur.com/RaticEP.jpeg" alt="Gallery View" width="250"/>
-<img src="https://i.imgur.com/Nqt2oAV.jpeg" alt="Scan Results" width="250"/>
-<img src="https://i.imgur.com/aCjPyH5.jpeg" alt="Scanning" width="250"/>
+<div style="display: flex; justify-content: space-between;">
+  <img src="https://i.imgur.com/RaticEP.jpeg" alt="Gallery View" width="30%"/>
+  <img src="https://i.imgur.com/Nqt2oAV.jpeg" alt="Scan Results" width="30%"/>
+  <img src="https://i.imgur.com/aCjPyH5.jpeg" alt="Scanning" width="30%"/>
+</div>
 
 ## Key Features ✨
 
