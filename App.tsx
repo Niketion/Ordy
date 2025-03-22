@@ -1,146 +1,100 @@
-// App.tsx
-import React, { useEffect, useState } from 'react';
+// src/App.tsx
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, ActivityIndicator, Alert, Button } from 'react-native';
-import * as MediaLibrary from 'expo-media-library';
-import * as FileSystem from 'expo-file-system';
+import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
+import PhotoGrid from './components/PhotoGrid';
+import LoadingScreen from './components/LoadingScreen';
+import { usePhotoGallery } from './hooks/usePhotoGallery';
+import { PhotoData } from './types';
 
 const App: React.FC = () => {
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-  const [lastPhotoUri, setLastPhotoUri] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { 
+    hasPermission, 
+    photos, 
+    isLoading, 
+    refreshPhotos, 
+    loadMorePhotos 
+  } = usePhotoGallery();
+  
+  const [refreshing, setRefreshing] = useState(false);
 
-  // Funzione per copiare l'immagine a un percorso accessibile
-  const copyPhotoToFileSystem = async (asset: MediaLibrary.Asset) => {
-    try {
-      // Nome di file fisso per sovrascrivere
-      const fileName = 'lastPhoto.jpg';
-      const destinationUri = `${FileSystem.cacheDirectory}${fileName}`;
-
-      // Verifica se il file esiste già
-      const fileInfo = await FileSystem.getInfoAsync(destinationUri);
-      if (fileInfo.exists) {
-        // Elimina il file esistente
-        await FileSystem.deleteAsync(destinationUri);
-      }
-
-      // Copia il file
-      await FileSystem.copyAsync({
-        from: asset.uri,
-        to: destinationUri,
-      });
-
-      return destinationUri;
-    } catch (error) {
-      console.error('Errore nella copia dell\'immagine:', error);
-      Alert.alert('Errore', 'C\'è stato un problema nel copiare l\'immagine.');
-      return null;
-    }
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await refreshPhotos();
+    setRefreshing(false);
   };
 
-  // Funzione per recuperare l'ultima foto
-  const getLastPhoto = async () => {
-    try {
-      setIsLoading(true);
-      const assets = await MediaLibrary.getAssetsAsync({
-        first: 10,
-        mediaType: ['photo'],
-        sortBy: [[MediaLibrary.SortBy.creationTime, false]],
-      });
-
-      if (assets.assets.length > 0) {
-        const lastPhoto = assets.assets[0];
-        const copiedUri = await copyPhotoToFileSystem(lastPhoto);
-        if (copiedUri) {
-          setLastPhotoUri(copiedUri);
-        } else {
-          setLastPhotoUri(null);
-        }
-      } else {
-        Alert.alert('Nessuna Foto Trovata', 'Non sono state trovate foto nel dispositivo.', [
-          { text: 'OK' },
-        ]);
-        setLastPhotoUri(null);
-      }
-    } catch (error) {
-      console.error('Errore nel recuperare le foto:', error);
-      Alert.alert('Errore', 'C\'è stato un problema nel recuperare le foto.');
-    } finally {
-      setIsLoading(false);
-    }
+  const handlePhotoPress = (photo: PhotoData) => {
+    console.log('Foto selezionata:', photo);
+    // Qui puoi implementare azioni aggiuntive quando una foto viene selezionata
   };
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await MediaLibrary.requestPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert(
-          'Permessi Negati',
-          'L\'app ha bisogno di accedere alle tue foto per funzionare correttamente.',
-          [{ text: 'OK' }]
-        );
-        setHasPermission(false);
-        setIsLoading(false);
-        return;
-      }
+  const handleLoadMore = () => {
+    loadMorePhotos();
+  };
 
-      setHasPermission(true);
-      await getLastPhoto();
-    })();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Caricamento...</Text>
-        <StatusBar style="auto" />
-      </View>
-    );
-  }
-
-  if (!hasPermission) {
-    return (
-      <View style={styles.container}>
-        <Text>Permessi alla libreria multimediale negati.</Text>
-        <StatusBar style="auto" />
-      </View>
-    );
+  if (isLoading && photos.length === 0) {
+    return <LoadingScreen />;
   }
 
   return (
-    <View style={styles.container}>
-      {lastPhotoUri ? (
-        <Image source={{ uri: lastPhotoUri }} style={styles.image} resizeMode="contain" />
-      ) : (
-        <Text>Nessuna foto disponibile.</Text>
-      )}
-      <Button title="Aggiorna Foto" onPress={getLastPhoto} />
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <Text style={styles.title}>La tua galleria foto</Text>
+        
+        {!hasPermission ? (
+          <View style={styles.messageContainer}>
+            <Text>Permessi alla libreria multimediale negati.</Text>
+          </View>
+        ) : photos.length > 0 ? (
+          <PhotoGrid 
+            photos={photos} 
+            onPhotoPress={handlePhotoPress}
+            onEndReached={handleLoadMore}
+            isLoading={isLoading}
+          />
+        ) : (
+          <View style={styles.messageContainer}>
+            <Text>Nessuna foto disponibile.</Text>
+          </View>
+        )}
+        
+        <View style={styles.buttonContainer}>
+          <Button 
+            title={refreshing ? "Aggiornamento..." : "Aggiorna Foto"} 
+            onPress={handleRefresh}
+            disabled={refreshing || !hasPermission}
+          />
+        </View>
+        <StatusBar style="auto" />
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  loadingContainer: {
+  safeArea: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 20,
   },
-  image: {
-    width: '90%',
-    height: '70%',
-    borderRadius: 10,
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
     marginBottom: 20,
+    textAlign: 'center',
   },
+  messageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    marginBottom: 20,
+  }
 });
 
 export default App;
