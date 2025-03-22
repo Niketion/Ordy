@@ -1,23 +1,23 @@
-# Ordy - Smart Photo Organizer
+# Ordy - Smart Photo Organizer 📱
 
-## Transform Your Photo Gallery Experience with Complete Privacy
+## Transform Your Photo Gallery Experience with Complete Privacy 🔒
 
 Ordy is a powerful, intuitive mobile application designed to bring order to your chaotic photo library. Using advanced image analysis algorithms, Ordy helps you easily identify and manage monochromatic photos and discover similar or duplicate images that clutter your gallery—all while keeping your photos completely private.
 
-## 100% On-Device Processing
+## 100% On-Device Processing 💯
 
 - **No Server Uploads**: All photo processing happens exclusively on your device
 - **Zero Cloud Storage**: Your photos never leave your phone
 - **Complete Privacy**: No image data is ever sent to external servers
 - **Offline Capability**: Works without an internet connection
 
-## App Screenshots
+## App Screenshots 📸
 
-![Gallery View](https://i.imgur.com/RaticEP.jpeg)
-[Scan Results](https://i.imgur.com/Nqt2oAV.jpeg)
-[Scanning](https://i.imgur.com/aCjPyH5.jpeg)
+<img src="https://i.imgur.com/RaticEP.jpeg" alt="Gallery View" width="250"/>
+<img src="https://i.imgur.com/Nqt2oAV.jpeg" alt="Scan Results" width="250"/>
+<img src="https://i.imgur.com/aCjPyH5.jpeg" alt="Scanning" width="250"/>
 
-## Key Features
+## Key Features ✨
 
 - **Smart Photo Scanning**: Automatically analyzes your entire photo library locally
 - **Monochrome Detection**: Identifies single-color or nearly single-color images with precision
@@ -25,7 +25,7 @@ Ordy is a powerful, intuitive mobile application designed to bring order to your
 - **Intuitive Gallery View**: Browse your photos with a clean, responsive interface
 - **Detailed Photo Information**: Examine photo metadata and similarity metrics
 
-## Technical Highlights
+## Technical Highlights 🛠️
 
 - Built with React Native and Expo for cross-platform compatibility
 - Implements efficient batch processing for handling large photo libraries locally
@@ -33,7 +33,7 @@ Ordy is a powerful, intuitive mobile application designed to bring order to your
 - Employs color analysis techniques to identify monochromatic images without server assistance
 - Features a responsive UI with intuitive filtering and sorting options
 
-## Getting Started
+## Getting Started 🚀
 
 Ordy is currently in development. To try it out:
 
@@ -41,7 +41,7 @@ Ordy is currently in development. To try it out:
 2. Install dependencies with `npm install` or `yarn install`
 3. Run the application with `expo start`
 
-## Client-Side Performance Optimization
+## Client-Side Performance Optimization ⚡
 
 Ordy is designed to handle large photo libraries efficiently on your device:
 
@@ -50,7 +50,7 @@ Ordy is designed to handle large photo libraries efficiently on your device:
 - Uses intelligent caching to improve performance while maintaining privacy
 - Shows real-time progress during scanning operations
 
-## Coming Soon
+## Coming Soon 🔮
 
 - Secure backup options with end-to-end encryption
 - Enhanced on-device AI processing capabilities
