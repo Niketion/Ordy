@@ -2,6 +2,12 @@
 
 A React Native mobile application that analyzes your photo gallery to detect monochromatic images and find similar/duplicate photos using advanced image processing algorithms.
 
+<div style="display: flex; justify-content: space-between;">
+  <img src="https://i.imgur.com/RaticEP.jpeg" alt="Gallery View" width="30%"/>
+  <img src="https://i.imgur.com/Nqt2oAV.jpeg" alt="Scan Results" width="30%"/>
+  <img src="https://i.imgur.com/aCjPyH5.jpeg" alt="Scanning" width="30%"/>
+</div>
+
 ## Technical Architecture
 
 ### Core Components
