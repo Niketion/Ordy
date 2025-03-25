@@ -1,64 +1,96 @@
-# Ordy - Smart Photo Organizer 📱
+# Ordy
 
-## Transform Your Photo Gallery Experience with Complete Privacy 🔒
+A React Native mobile application that analyzes your photo gallery to detect monochromatic images and find similar/duplicate photos using advanced image processing algorithms.
 
-Ordy is a powerful, intuitive mobile application designed to bring order to your chaotic photo library. Using advanced image analysis algorithms, Ordy helps you easily identify and manage monochromatic photos and discover similar or duplicate images that clutter your gallery—all while keeping your photos completely private.
+## Technical Architecture
 
-## 100% On-Device Processing 💯
+### Core Components
 
-- **No Server Uploads**: All photo processing happens exclusively on your device
-- **Zero Cloud Storage**: Your photos never leave your phone
-- **Complete Privacy**: No image data is ever sent to external servers
-- **Offline Capability**: Works without an internet connection
+- **PhotoGrid**: Renders photo collection in a customizable grid with efficient memory management
+- **ScanTab**: Manages scanning workflows and result visualization
+- **BatchProcessor**: Handles concurrent image analysis operations
 
-## App Screenshots 📸
+### Key Technologies
 
-<div style="display: flex; justify-content: space-between;">
-  <img src="https://i.imgur.com/RaticEP.jpeg" alt="Gallery View" width="30%"/>
-  <img src="https://i.imgur.com/Nqt2oAV.jpeg" alt="Scan Results" width="30%"/>
-  <img src="https://i.imgur.com/aCjPyH5.jpeg" alt="Scanning" width="30%"/>
-</div>
+- React Native + TypeScript
+- Expo Media Library for asset access
+- SHA-256 perceptual hashing for image similarity detection
+- Parallel processing architecture for analyzing large photo libraries
 
-## Key Features ✨
+## Features
 
-- **Smart Photo Scanning**: Automatically analyzes your entire photo library locally
-- **Monochrome Detection**: Identifies single-color or nearly single-color images with precision
-- **Similarity Analysis**: Discovers similar and duplicate photos using advanced hashing technology
-- **Intuitive Gallery View**: Browse your photos with a clean, responsive interface
-- **Detailed Photo Information**: Examine photo metadata and similarity metrics
+### Gallery Management
+- Paginated loading of device media
+- Responsive grid display with date metadata
+- Modal view for photo inspection
+- Pull-to-refresh and infinite scroll implementations
 
-## Technical Highlights 🛠️
+### Photo Analysis
+- **Monochrome Detection**: Identifies images with color uniformity above 92%
+- **Similarity Detection**: Finds similar photos with >87% hash similarity
+- **Duplicate Detection**: Identifies near-identical photos with >98% hash similarity
+- Real-time progress tracking with dual-phase progress display
 
-- Built with React Native and Expo for cross-platform compatibility
-- Implements efficient batch processing for handling large photo libraries locally
-- Uses perceptual hashing algorithms for reliable image similarity detection on-device
-- Employs color analysis techniques to identify monochromatic images without server assistance
-- Features a responsive UI with intuitive filtering and sorting options
+### Performance Optimizations
+- Batch processing with configurable chunk sizes
+- In-memory caching of analysis results
+- Limited parallel operations to prevent device overload
+- Progressive asset loading for large libraries
 
-## Getting Started 🚀
+## Implementation Details
 
-Ordy is currently in development. To try it out:
+### Image Analysis Pipeline
 
-1. Clone the repository
-2. Install dependencies with `npm install` or `yarn install`
-3. Run the application with `expo start`
+1. **Asset Retrieval**: Efficiently loads photo metadata in configurable batches
+2. **Perceptual Hashing**: Generates compact signatures for similarity comparison
+   - Images are resized to 16×16px
+   - Color data is transformed into cryptographic hash
+3. **Color Analysis**: Identifies monochromatic images
+   - Samples color distribution in 32×32px downsamples
+   - Calculates variance across color spectrum
+   - Applies 92% uniformity threshold for classification
+4. **Similarity Comparison**: Compares hash signatures using Hamming distance algorithm
 
-## Client-Side Performance Optimization ⚡
+### Configuration Constants
+- `HASH_SIZE`: 16px (hash generation dimensions)
+- `COLOR_ANALYSIS_SIZE`: 32px (color analysis dimensions)
+- `MONOCHROME_THRESHOLD`: 0.92 (92% color uniformity)
+- `SIMILARITY_THRESHOLD`: 0.87 (87% hash similarity)
+- `BATCH_SIZE`: 100 (photos processed per batch)
+- `MAX_PARALLEL_OPERATIONS`: 25 (concurrent operations)
 
-Ordy is designed to handle large photo libraries efficiently on your device:
+## Getting Started
 
-- Processes photos in optimized batches directly on your phone
-- Implements parallel operations for faster scanning without server resources
-- Uses intelligent caching to improve performance while maintaining privacy
-- Shows real-time progress during scanning operations
+### Prerequisites
+- Node.js 12+
+- React Native environment
+- Expo CLI
 
-## Coming Soon 🔮
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/ordy.git
 
-- Secure backup options with end-to-end encryption
-- Enhanced on-device AI processing capabilities
-- Local face recognition with no cloud dependency
-- Automatic organization suggestions powered by on-device machine learning
+# Install dependencies
+cd ordy
+npm install
 
----
+# Start development server
+expo start
+```
 
-*Bring order to your photo chaos with Ordy - Your personal photo library assistant that respects your privacy*
+### Permissions
+Ordy requires the following permissions:
+- `READ_EXTERNAL_STORAGE` - For accessing the device photo library
+
+## Performance Considerations
+
+The application implements several optimizations for processing large photo libraries:
+- **Memory-efficient processing**: Photos are processed in configurable batches
+- **Operation throttling**: Parallel operations are limited to prevent device lockup
+- **Progressive loading**: Two-phase loading strategy for improved UX
+- **Hash caching**: Previously processed images are cached to avoid redundant processing
+
+## License
+
+MIT
