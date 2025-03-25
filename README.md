@@ -85,10 +85,6 @@ npm install
 expo start
 ```
 
-### Permissions
-Ordy requires the following permissions:
-- `READ_EXTERNAL_STORAGE` - For accessing the device photo library
-
 ## Performance Considerations
 
 The application implements several optimizations for processing large photo libraries:
@@ -96,7 +92,3 @@ The application implements several optimizations for processing large photo libr
 - **Operation throttling**: Parallel operations are limited to prevent device lockup
 - **Progressive loading**: Two-phase loading strategy for improved UX
 - **Hash caching**: Previously processed images are cached to avoid redundant processing
-
-## License
-
-MIT
